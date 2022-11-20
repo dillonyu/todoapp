@@ -27,9 +27,8 @@ export default function Display() {
               color="primary"
               startIcon={<AddCircleIcon />}
               onClick={() => {
-                const newTasks = tasks.concat([<Task />]);
+                const newTasks = tasks.concat([<Task key={tasks.length} />]);
                 setTasks(newTasks);
-                console.log('Hi!');
               }}
             >
               ADD
@@ -53,7 +52,7 @@ export default function Display() {
         <Typography color="text.secondary">Is Complete</Typography>
         <Typography color="text.secondary">Action</Typography>
       </Box>
-      {tasks};
+      {tasks}
     </div>
   );
 }
