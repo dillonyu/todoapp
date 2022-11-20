@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import CancelIcon from '@mui/icons-material/Cancel';
 import EditIcon from '@mui/icons-material/Edit';
 
-export default function Task() {
+export default function Task(props) {
   return (
     <Box
       sx={{
@@ -21,10 +21,12 @@ export default function Task() {
         alignItems: 'center',
       }}
     >
-      <Typography color="text.primary">Title</Typography>
-      <Typography color="text.primary">Description</Typography>
-      <Typography color="text.primary">Deadline</Typography>
-      <Typography color="text.primary">Priority</Typography>
+      <Typography color="text.primary">{props.title}</Typography>
+      <Typography color="text.primary">{props.desc}</Typography>
+      <Typography color="text.primary">
+        {props.date.format('MM/DD/YYYY')}
+      </Typography>
+      <Typography color="text.primary">{props.priority}</Typography>
       <Checkbox sx={{ ml: -1 }} />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Button variant="contained" color="primary" startIcon={<EditIcon />}>
