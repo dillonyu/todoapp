@@ -8,8 +8,10 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Task from './Task';
+import { useState } from 'react';
 
 export default function Display() {
+  let [tasks, setTasks] = useState([]);
   return (
     <div className="header">
       <Box sx={{ flexGrow: 1 }}>
@@ -24,6 +26,11 @@ export default function Display() {
               variant="contained"
               color="primary"
               startIcon={<AddCircleIcon />}
+              onClick={() => {
+                const newTasks = tasks.concat([<Task />]);
+                setTasks(newTasks);
+                console.log('Hi!');
+              }}
             >
               ADD
             </Button>
@@ -46,7 +53,7 @@ export default function Display() {
         <Typography color="text.secondary">Is Complete</Typography>
         <Typography color="text.secondary">Action</Typography>
       </Box>
-      <Task/>
+      {tasks};
     </div>
   );
 }
