@@ -7,9 +7,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 export default function Header() {
   return (
@@ -32,21 +29,22 @@ export default function Header() {
           </Toolbar>
         </AppBar>
       </Box>
-      <Card>
-        <CardContent
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-around',
-          }}
-        >
-          <Typography color="text.secondary">Title</Typography>
-          <Typography color="text.secondary">Description</Typography>
-          <Typography color="text.secondary">Deadline</Typography>
-          <Typography color="text.secondary">Priority</Typography>
-          <Typography color="text.secondary">Is Complete</Typography>
-          <Typography color="text.secondary">Action</Typography>
-        </CardContent>
-      </Card>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          padding: 2,
+          paddingTop: 4,
+          boxShadow: 1,
+        }}
+      >
+        <Typography color="text.secondary">Title</Typography>
+        <Typography color="text.secondary">Description</Typography>
+        <Typography color="text.secondary">Deadline</Typography>
+        <Typography color="text.secondary">Priority</Typography>
+        <Typography color="text.secondary">Is Complete</Typography>
+        <Typography color="text.secondary">Action</Typography>
+      </Box>
     </div>
   );
 }
