@@ -67,7 +67,7 @@ export default function Task(props) {
 
   function handleEditSubmit() {
     setSubmit(true);
-    if (!desc) {
+    if (!inputDesc) {
       return;
     }
     setDesc(inputDesc);
