@@ -40,10 +40,15 @@ export default function Display() {
   let [submit, setSubmit] = useState(false);
 
   function handleAddOpen() {
+    setSubmit(false);
     setAddOpen(true);
   }
 
   function handleAddClose() {
+    setTitle('');
+    setDesc('');
+    setDate(dayjs());
+    setPriority('');
     setAddOpen(false);
   }
 
@@ -80,6 +85,10 @@ export default function Display() {
     setTasks(newTasks);
     setAddOpen(false);
     setSubmit(false);
+    setTitle('');
+    setDesc('');
+    setDate(dayjs());
+    setPriority('');
   }
 
   return (
