@@ -12,13 +12,11 @@ import { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import FormControl from '@mui/material/FormControl';
-import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import dayjs from 'dayjs';
@@ -33,9 +31,9 @@ import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 
 toastr.options = {
-  "closeButton": true,
-  "positionClass": "toast-bottom-right"
-}
+  closeButton: true,
+  positionClass: 'toast-bottom-right',
+};
 
 export default function Display() {
   let [tasks, setTasks] = useState([]);
