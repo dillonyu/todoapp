@@ -28,6 +28,7 @@ import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import BlockIcon from '@mui/icons-material/Block';
+import FormHelperText from '@mui/material/FormHelperText';
 
 export default function Display() {
   let [tasks, setTasks] = useState([]);
@@ -36,6 +37,7 @@ export default function Display() {
   let [desc, setDesc] = useState('');
   let [date, setDate] = useState(dayjs());
   let [priority, setPriority] = useState('');
+  let [submit, setSubmit] = useState(false);
 
   function handleAddOpen() {
     setAddOpen(true);
@@ -62,9 +64,22 @@ export default function Display() {
   };
 
   function handleAddTask() {
-    const newTasks = tasks.concat([<Task key={tasks.length} title={title} desc={desc} date={date} priority={priority}/>]);
+    setSubmit(true);
+    if (!title || !desc) {
+      return;
+    }
+    const newTasks = tasks.concat([
+      <Task
+        key={tasks.length}
+        title={title}
+        desc={desc}
+        date={date}
+        priority={priority}
+      />,
+    ]);
     setTasks(newTasks);
     setAddOpen(false);
+    setSubmit(false);
   }
 
   return (
@@ -122,13 +137,19 @@ export default function Display() {
           </DialogTitle>
           <Stack spacing={2} style={{ padding: 10 }}>
             <FormControl>
-              <InputLabel htmlFor="component-outlined">Name</InputLabel>
+              <InputLabel htmlFor="component-outlined">Title</InputLabel>
               <OutlinedInput
                 id="component-outlined"
                 value={title}
                 onChange={handleTitle}
                 label="Title"
+                error={!title && submit}
               />
+              {!title && submit && (
+                <FormHelperText sx={{ color: 'error.main' }}>
+                  Title is Required!
+                </FormHelperText>
+              )}
             </FormControl>
             <FormControl>
               <InputLabel htmlFor="component-outlined">Description</InputLabel>
@@ -137,7 +158,13 @@ export default function Display() {
                 value={desc}
                 onChange={handleDesc}
                 label="Description"
+                error={!desc && submit}
               />
+              {!desc && submit && (
+                <FormHelperText sx={{ color: 'error.main' }}>
+                  Description is Required!
+                </FormHelperText>
+              )}
             </FormControl>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker
