@@ -34,6 +34,8 @@ export default function Task(props) {
   let [date, setDate] = useState(props.date);
   let [priority, setPriority] = useState(props.priority);
   let [submit, setSubmit] = useState(false);
+  let [del, setDel] = useState(false);
+  let [check, setCheck] = useState(false);
 
   let [inputDesc, setInputDesc] = useState(props.desc);
   let [inputDate, setInputDate] = useState(props.date);
@@ -74,110 +76,143 @@ export default function Task(props) {
     setEditOpen(false);
   }
 
+  function handleDelete() {
+    setDel(true);
+  }
+
+  const handleCheck = (event) => {
+    setCheck(event.target.checked);
+  };
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-around',
-        paddingLeft: 2,
-        paddingRight: 2,
-        paddingTop: 4,
-        paddingBottom: 4,
-        boxShadow: 1,
-        alignItems: 'center',
-      }}
-    >
-      <Typography color="text.primary">{props.title}</Typography>
-      <Typography color="text.primary">{desc}</Typography>
-      <Typography color="text.primary">{date.format('MM/DD/YYYY')}</Typography>
-      <Typography color="text.primary">{priority}</Typography>
-      <Checkbox sx={{ ml: -1 }} />
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<EditIcon />}
-          onClick={handleEditOpen}
-        >
-          UPDATE
-        </Button>
-        <Button variant="contained" color="error" startIcon={<CancelIcon />}>
-          DELETE
-        </Button>
-      </div>
-      <Dialog open={editOpen} onClose={handleEditClose} sx={{ width: '100%' }}>
-        <Stack spacing={2}>
-          <DialogTitle
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              backgroundColor: 'primary.main',
-              color: 'white',
-            }}
+    !del && (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          paddingLeft: 2,
+          paddingRight: 2,
+          paddingTop: 4,
+          paddingBottom: 4,
+          boxShadow: 1,
+          alignItems: 'center',
+        }}
+      >
+        <Typography color="text.primary">{props.title}</Typography>
+        <Typography color="text.primary">{desc}</Typography>
+        <Typography color="text.primary">
+          {date.format('MM/DD/YYYY')}
+        </Typography>
+        <Typography color="text.primary">{priority}</Typography>
+        <Checkbox sx={{ ml: -1 }} onChange={handleCheck} />
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {!check && (
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<EditIcon />}
+              onClick={handleEditOpen}
+            >
+              UPDATE
+            </Button>
+          )}
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<CancelIcon />}
+            onClick={handleDelete}
           >
-            <EditIcon />
-            Edit Task
-          </DialogTitle>
-          <Stack spacing={2} style={{ padding: 10 }}>
-            <FormControl>
-              <InputLabel htmlFor="component-outlined">Description</InputLabel>
-              <OutlinedInput
-                id="component-outlined"
-                value={inputDesc}
-                onChange={handleDesc}
-                label="Description"
-                error={!inputDesc && submit}
-              />
-              {!inputDesc && submit && (
-                <FormHelperText sx={{ color: 'error.main' }}>
-                  Description is Required!
-                </FormHelperText>
-              )}
-            </FormControl>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                label="Deadline"
-                inputFormat="MM/DD/YYYY"
-                value={inputDate}
-                onChange={handleDate}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-            <FormControl>
-              <FormLabel>Priority</FormLabel>
-              <RadioGroup row value={inputPriority} onChange={handlePriority}>
-                <FormControlLabel value="low" control={<Radio />} label="Low" />
-                <FormControlLabel value="med" control={<Radio />} label="Med" />
-                <FormControlLabel
-                  value="high"
-                  control={<Radio />}
-                  label="High"
+            DELETE
+          </Button>
+        </div>
+        <Dialog
+          open={editOpen}
+          onClose={handleEditClose}
+          sx={{ width: '100%' }}
+        >
+          <Stack spacing={2}>
+            <DialogTitle
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                backgroundColor: 'primary.main',
+                color: 'white',
+              }}
+            >
+              <EditIcon />
+              Edit Task
+            </DialogTitle>
+            <Stack spacing={2} style={{ padding: 10 }}>
+              <FormControl>
+                <InputLabel htmlFor="component-outlined">
+                  Description
+                </InputLabel>
+                <OutlinedInput
+                  id="component-outlined"
+                  value={inputDesc}
+                  onChange={handleDesc}
+                  label="Description"
+                  error={!inputDesc && submit}
                 />
-              </RadioGroup>
-            </FormControl>
-            <FormControl>
-              <Stack direction="row-reverse" spacing={1}>
-                <Button
-                  variant="contained"
-                  color="error"
-                  startIcon={<BlockIcon />}
-                  onClick={handleEditClose}
-                >
-                  CANCEL
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<EditIcon />}
-                  onClick={handleEditSubmit}
-                >
-                  EDIT
-                </Button>
-              </Stack>
-            </FormControl>
+                {!inputDesc && submit && (
+                  <FormHelperText sx={{ color: 'error.main' }}>
+                    Description is Required!
+                  </FormHelperText>
+                )}
+              </FormControl>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DesktopDatePicker
+                  label="Deadline"
+                  inputFormat="MM/DD/YYYY"
+                  value={inputDate}
+                  onChange={handleDate}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+              <FormControl>
+                <FormLabel>Priority</FormLabel>
+                <RadioGroup row value={inputPriority} onChange={handlePriority}>
+                  <FormControlLabel
+                    value="low"
+                    control={<Radio />}
+                    label="Low"
+                  />
+                  <FormControlLabel
+                    value="med"
+                    control={<Radio />}
+                    label="Med"
+                  />
+                  <FormControlLabel
+                    value="high"
+                    control={<Radio />}
+                    label="High"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <FormControl>
+                <Stack direction="row-reverse" spacing={1}>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    startIcon={<BlockIcon />}
+                    onClick={handleEditClose}
+                  >
+                    CANCEL
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<EditIcon />}
+                    onClick={handleEditSubmit}
+                  >
+                    EDIT
+                  </Button>
+                </Stack>
+              </FormControl>
+            </Stack>
           </Stack>
-        </Stack>
-      </Dialog>
-    </Box>
+        </Dialog>
+      </Box>
+    )
   );
 }
