@@ -29,6 +29,13 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import BlockIcon from '@mui/icons-material/Block';
 import FormHelperText from '@mui/material/FormHelperText';
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
+
+toastr.options = {
+  "closeButton": true,
+  "positionClass": "toast-bottom-right"
+}
 
 export default function Display() {
   let [tasks, setTasks] = useState([]);
@@ -38,6 +45,7 @@ export default function Display() {
   let [date, setDate] = useState(dayjs());
   let [priority, setPriority] = useState('');
   let [submit, setSubmit] = useState(false);
+  let [titles, setTitles] = useState([]);
 
   function handleAddOpen() {
     setSubmit(false);
@@ -70,9 +78,10 @@ export default function Display() {
 
   function handleAddTask() {
     setSubmit(true);
-    if (!title || !desc) {
+    if (!title || !desc || titles.includes(title)) {
       return;
     }
+    toastr['success'](' ', 'Task Added');
     const newTasks = tasks.concat([
       <Task
         key={tasks.length}
@@ -82,6 +91,7 @@ export default function Display() {
         priority={priority}
       />,
     ]);
+    setTitles(titles.concat([title]));
     setTasks(newTasks);
     setAddOpen(false);
     setSubmit(false);
@@ -152,11 +162,16 @@ export default function Display() {
                 value={title}
                 onChange={handleTitle}
                 label="Title"
-                error={!title && submit}
+                error={(!title || titles.includes(title)) && submit}
               />
               {!title && submit && (
                 <FormHelperText sx={{ color: 'error.main' }}>
                   Title is Required!
+                </FormHelperText>
+              )}
+              {titles.includes(title) && submit && (
+                <FormHelperText sx={{ color: 'error.main' }}>
+                  Title is not unique!
                 </FormHelperText>
               )}
             </FormControl>

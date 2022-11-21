@@ -27,6 +27,13 @@ import RadioGroup from '@mui/material/RadioGroup';
 import BlockIcon from '@mui/icons-material/Block';
 import FormHelperText from '@mui/material/FormHelperText';
 import { useState } from 'react';
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
+
+toastr.options = {
+  closeButton: true,
+  positionClass: 'toast-bottom-right',
+};
 
 export default function Task(props) {
   let [editOpen, setEditOpen] = useState(false);
@@ -70,6 +77,8 @@ export default function Task(props) {
     if (!inputDesc) {
       return;
     }
+    toastr['success'](' ', 'Task Updated');
+
     setDesc(inputDesc);
     setDate(inputDate);
     setPriority(inputPriority);
@@ -77,6 +86,7 @@ export default function Task(props) {
   }
 
   function handleDelete() {
+    toastr['success'](' ', 'Task Deleted');
     setDel(true);
   }
 
@@ -86,45 +96,78 @@ export default function Task(props) {
 
   return (
     !del && (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-around',
-          paddingLeft: 2,
-          paddingRight: 2,
-          paddingTop: 4,
-          paddingBottom: 4,
-          boxShadow: 1,
-          alignItems: 'center',
-        }}
-      >
-        <Typography color="text.primary">{props.title}</Typography>
-        <Typography color="text.primary">{desc}</Typography>
-        <Typography color="text.primary">
-          {date.format('MM/DD/YYYY')}
-        </Typography>
-        <Typography color="text.primary">{priority}</Typography>
-        <Checkbox sx={{ ml: -1 }} onChange={handleCheck} />
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {!check && (
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<EditIcon />}
-              onClick={handleEditOpen}
+      <div>
+        <Grid
+          container
+          sx={{
+            boxShadow: 1,
+            display: 'flex',
+            justifyContent: 'space-around',
+            paddingLeft: 2,
+            paddingRight: 2,
+            paddingTop: 4,
+            paddingBottom: 3,
+            alignItems: 'center',
+          }}
+        >
+          <Grid item xs={8}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-around',
+                paddingLeft: 2,
+                paddingRight: 2,
+                paddingTop: 4,
+                paddingBottom: 3,
+                alignItems: 'center',
+              }}
             >
-              UPDATE
-            </Button>
-          )}
-          <Button
-            variant="contained"
-            color="error"
-            startIcon={<CancelIcon />}
-            onClick={handleDelete}
-          >
-            DELETE
-          </Button>
-        </div>
+              <Typography color="text.primary">{props.title}</Typography>
+              <Typography color="text.primary">{desc}</Typography>
+              <Typography color="text.primary">
+                {date.format('MM/DD/YYYY')}
+              </Typography>
+              <Typography color="text.primary">{priority}</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={2}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingLeft: 2,
+                paddingRight: 2,
+                paddingTop: 4,
+                paddingBottom: 4,
+              }}
+            >
+              <Checkbox sx={{ ml: -1 }} onChange={handleCheck} />
+            </Box>
+          </Grid>
+          <Grid item xs={2}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {!check && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<EditIcon />}
+                  onClick={handleEditOpen}
+                >
+                  UPDATE
+                </Button>
+              )}
+              <Button
+                variant="contained"
+                color="error"
+                startIcon={<CancelIcon />}
+                onClick={handleDelete}
+              >
+                DELETE
+              </Button>
+            </div>
+          </Grid>
+        </Grid>
         <Dialog
           open={editOpen}
           onClose={handleEditClose}
@@ -212,7 +255,7 @@ export default function Task(props) {
             </Stack>
           </Stack>
         </Dialog>
-      </Box>
+      </div>
     )
   );
 }
