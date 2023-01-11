@@ -107,7 +107,7 @@ export default function Display() {
             <div></div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <MenuIcon sx={{ textAlign: 'center' }} />
-              <Typography>FRAMEWORKS</Typography>
+              <Typography>TO-DO LIST</Typography>
             </div>
             <Button
               variant="contained"
